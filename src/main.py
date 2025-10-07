@@ -3,11 +3,10 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from nest.core import PyNestFactory
-from nest.swagger import SwaggerModule, DocumentBuilder
 from contextlib import asynccontextmanager
 
-from src.app_module import AppModule
-from src.data_feeds.ccxt_provider_service import CcxtFeed
+from app_module import AppModule
+from data_feeds.ccxt_provider_service import CcxtFeed
 
 load_dotenv()
 
@@ -46,11 +45,6 @@ def main():
 
     # Set up lifespan events
     app.router.lifespan_context = lifespan
-
-    document = DocumentBuilder().set_title("FTSO Value Provider").set_description(
-        "API to fetch data for FTSO").set_version("1.0.0").build()
-
-    SwaggerModule.setup("api-docs", app, document)
 
     port = int(os.getenv("VALUE_PROVIDER_CLIENT_PORT", 3101))
     uvicorn.run(app, host="0.0.0.0", port=port)

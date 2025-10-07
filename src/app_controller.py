@@ -1,10 +1,10 @@
 from fastapi import Body, Query, Path
-from nest.common import Controller, Post, Inject, DefaultValuePipe, ParseIntPipe
+from nest.core import Controller, Post
 from loguru import logger
 from typing import Annotated
 
-from src.app_service import AppService
-from src.dto.provider_requests import (
+from app_service import AppService
+from dto.provider_requests import (
     FeedValuesRequest,
     FeedValuesResponse,
     FeedVolumesResponse,
@@ -14,7 +14,6 @@ from src.dto.provider_requests import (
 
 @Controller()
 class AppController:
-    @Inject()
     def __init__(self, app_service: AppService):
         self.app_service = app_service
         self.logger = logger

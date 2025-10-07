@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from src.dto.provider_requests import FeedId, FeedValueData, FeedVolumeData
+from dto.provider_requests import FeedId, FeedValueData, FeedVolumeData
 
 
 class BaseDataFeed(ABC):

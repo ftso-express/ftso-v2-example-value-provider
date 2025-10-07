@@ -1,13 +1,13 @@
 import os
-from nest.common import Module
+from nest.core import Module
 from injector import Injector, provider, singleton
 
-from src.app_controller import AppController
-from src.app_service import AppService
-from src.data_feeds.base_feed import BaseDataFeed
-from src.data_feeds.ccxt_provider_service import CcxtFeed
-from src.data_feeds.fixed_feed import FixedFeed
-from src.data_feeds.random_feed import RandomFeed
+from app_controller import AppController
+from app_service import AppService
+from data_feeds.base_feed import BaseDataFeed
+from data_feeds.ccxt_provider_service import CcxtFeed
+from data_feeds.fixed_feed import FixedFeed
+from data_feeds.random_feed import RandomFeed
 
 
 @singleton

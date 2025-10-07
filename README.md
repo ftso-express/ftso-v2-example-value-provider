@@ -1,30 +1,71 @@
-# FTSOv2 Example Feed Value Provider
+# FTSOv2 Example Value Provider
 
-This is a sample implementation of an FTSOv2 feed value provider that serves values for requested feed IDs. By default, it uses [CCXT](https://ccxt.readthedocs.io/) to fetch the latest values from supported exchanges. Alternatively, it can be configured to provide fixed or random values for testing purposes.
+This is a sample implementation of an FTSOv2 value provider that serves values for requested feed IDs. By default, it uses [CCXT](https://ccxt.readthedocs.io/) to fetch the latest values from supported exchanges. Alternatively, it can be configured to provide fixed or random values for testing purposes.
 
 ## Configuration
 
 The provider behavior can be adjusted via the `VALUE_PROVIDER_IMPL` environment variable:
+- `ccxt`: (Default) uses the CCXT library to fetch real-time prices from various exchanges.
 - `fixed`: returns a fixed value.
 - `random`: returns random values.
-- Leave blank to use the default CCXT-based values.
 
 ## Starting the Provider
 
-To start the provider using Docker, run:
+There are two ways to run the value provider:
+
+### 1. Running with Python (Local Development)
+
+**Prerequisites:**
+- Python 3.8+
+- Pip
+
+**Installation:**
+
+Clone the repository and install the required dependencies:
 
 ```bash
-docker run --rm -it --publish "0.0.0.0:3101:3101" ghcr.io/flare-foundation/ftso-v2-example-value-provider
+git clone https://github.com/flare-foundation/ftso-v2-example-value-provider.git
+cd ftso-v2-example-value-provider
+pip install -r requirements.txt
 ```
 
-This will start the service on port `3101`. You can find the API spec at: http://localhost:3101/api-doc.
+**Running the server:**
+
+```bash
+python src/main.py
+```
+
+The server will start on `http://localhost:3101`.
+
+### 2. Running with Docker
+
+**Prerequisites:**
+- Docker
+
+**Build the Docker image:**
+
+```bash
+docker build -t ftso-v2-example-value-provider .
+```
+
+**Run the Docker container:**
+
+```bash
+docker run --rm -it -p 3101:3101 ftso-v2-example-value-provider
+```
+
+## API Documentation
+
+Once the server is running, the OpenAPI specification (Swagger UI) is available at:
+
+[http://localhost:3101/docs](http://localhost:3101/docs)
 
 ## Obtaining Feed Values
 
 The provider exposes two API endpoints for retrieving feed values:
 
-1. **`/feed-values/<votingRound>`**: Retrieves feed values for a specified voting round. Used by FTSOv2 Scaling clients.
-2. **`/feed-values/`**: Retrieves the latest feed values without a specific voting round ID. Used by FTSOv2 Fast Updates clients.
+1. **`/feed-values/{voting_round_id}`**: Retrieves feed values for a specified voting round. Used by FTSO V2 Scaling clients.
+2. **`/feed-values`**: Retrieves the latest feed values without a specific voting round ID. Used by FTSO V2 Fast Updates clients.
 
 > **Note**: In this example implementation, both endpoints return the same data, which is the latest feed values available.
 
@@ -32,7 +73,7 @@ The provider exposes two API endpoints for retrieving feed values:
 
 #### Fetching Feed Values with a Voting Round ID
 
-Use the endpoint `/feed-values/<votingRound>` to obtain values for a specific voting round.
+Use the endpoint `/feed-values/{voting_round_id}` to obtain values for a specific voting round.
 
 ```bash
 curl -X 'POST' \
@@ -59,11 +100,11 @@ curl -X 'POST' \
 
 #### Fetching Latest Feed Values (Without Voting Round ID)
 
-Use the endpoint `/feed-values/` to get the most recent feed values without specifying a voting round.
+Use the endpoint `/feed-values` to get the most recent feed values without specifying a voting round.
 
 ```bash
 curl -X 'POST' \
-  'http://localhost:3101/feed-values/' \
+  'http://localhost:3101/feed-values' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{

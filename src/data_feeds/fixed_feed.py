@@ -1,7 +1,7 @@
 from typing import List
 from loguru import logger
-from src.data_feeds.base_feed import BaseDataFeed
-from src.dto.provider_requests import FeedId, FeedValueData, FeedVolumeData
+from data_feeds.base_feed import BaseDataFeed
+from dto.provider_requests import FeedId, FeedValueData, FeedVolumeData
 
 DEFAULT_VALUE = 0.01
 
