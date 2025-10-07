@@ -15,6 +15,13 @@ export class ExampleProviderController {
 
   constructor(@Inject("EXAMPLE_PROVIDER_SERVICE") private readonly providerService: ExampleProviderService) {}
 
+  /**
+   * Retrieves feed values for a specific voting round.
+   * Used by FTSOv2 Scaling clients.
+   * @param votingRoundId - The ID of the voting round.
+   * @param body - The request body containing the feed IDs.
+   * @returns The feed values for the specified voting round.
+   */
   @Post("feed-values/:votingRoundId")
   async getFeedValues(
     @Param("votingRoundId", ParseIntPipe) votingRoundId: number,
@@ -28,6 +35,12 @@ export class ExampleProviderController {
     };
   }
 
+  /**
+   * Retrieves the latest feed values without a specific voting round ID.
+   * Used by FTSOv2 Fast Updates clients.
+   * @param body - The request body containing the feed IDs.
+   * @returns The latest feed values.
+   */
   @Post("feed-values/")
   async getCurrentFeedValues(@Body() body: FeedValuesRequest): Promise<FeedValuesResponse> {
     const values = await this.providerService.getValues(body.feeds);
@@ -37,6 +50,12 @@ export class ExampleProviderController {
     };
   }
 
+  /**
+   * Retrieves the trading volumes for the requested feeds over a specified time window.
+   * @param body - The request body containing the feed IDs.
+   * @param windowSec - The time window in seconds for which to retrieve the volume. Defaults to 60.
+   * @returns The trading volumes for the requested feeds.
+   */
   @Post("volumes/")
   async getFeedVolumes(
     @Body() body: FeedValuesRequest,
