@@ -1,5 +1,5 @@
 import os
-from pynest.common import Module
+from nest.common import Module
 from injector import Injector, provider, singleton
 
 from src.app_controller import AppController

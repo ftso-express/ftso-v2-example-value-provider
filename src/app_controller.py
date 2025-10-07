@@ -1,5 +1,5 @@
 from fastapi import Body, Query, Path
-from pynest.common import Controller, Post, Inject, DefaultValuePipe, ParseIntPipe
+from nest.common import Controller, Post, Inject, DefaultValuePipe, ParseIntPipe
 from loguru import logger
 from typing import Annotated
 

@@ -2,8 +2,8 @@ import uvicorn
 import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
-from pynest.core import PyNestFactory
-from pynest.swagger import SwaggerModule, DocumentBuilder
+from nest.core import PyNestFactory
+from nest.swagger import SwaggerModule, DocumentBuilder
 from contextlib import asynccontextmanager
 
 from src.app_module import AppModule
