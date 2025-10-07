@@ -1,0 +1,6 @@
+pynest-api
+ccxt
+loguru
+uvicorn
+python-dotenv
+pydantic
