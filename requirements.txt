@@ -4,3 +4,5 @@ loguru
 uvicorn
 python-dotenv
 pydantic
+sqlalchemy
+asyncpg

@@ -1,7 +1,7 @@
 from typing import List
 from injector import inject
-from src.data_feeds.base_feed import BaseDataFeed
-from src.dto.provider_requests import FeedId, FeedValueData, FeedVolumeData
+from data_feeds.base_feed import BaseDataFeed
+from dto.provider_requests import FeedId, FeedValueData, FeedVolumeData
 
 
 class AppService:

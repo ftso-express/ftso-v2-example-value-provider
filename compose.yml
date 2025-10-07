@@ -2,23 +2,77 @@
 
 services:
   # Main service with CCXT (default)
-  ftso-value-provider:
-    image: ghcr.io/flare-foundation/ftso-v2-example-value-provider
-    container_name: ftso-provider-ccxt
-    build: .
+  # ftso-value-provider-old:
+  #   image: ghcr.io/flare-foundation/ftso-v2-example-value-provider:old
+  #   container_name: ftso-provider-ccxt-old
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.old
+  #   ports:
+  #     - "0.0.0.0:3101:3101"
+  #   stdin_open: true
+  #   tty: true
+  #   restart: unless-stopped
+  #   env_file:
+  #     - ./config/app/app.env
+  #   environment:
+  #     DATABASE_URL: postgresql://ftso_user:ftso_password@postgres:5432/ftso_db
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   healthcheck:
+  #     test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3101/docs"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 3
+  #     start_period: 10s
+  
+  ftso-value-provider-new:
+    image: ghcr.io/flare-foundation/ftso-v2-example-value-provider:new
+    container_name: ftso-provider-ccxt-new
+    build:
+      context: .
+      dockerfile: Dockerfile.new
     ports:
-      - "0.0.0.0:3101:3101"
+      - "0.0.0.0:3210:3101"
     stdin_open: true
     tty: true
     restart: unless-stopped
     env_file:
       - ./config/app/app.env
+    environment:
+      DATABASE_URL: postgresql://ftso_user:ftso_password@postgres:5432/ftso_db
+    depends_on:
+      postgres:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3101/api-doc"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3101/docs"]
       interval: 10s
       timeout: 5s
       retries: 3
       start_period: 10s
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: ftso-postgres
+    #environment:
+    #  POSTGRES_DB: ftso_db
+    #  POSTGRES_USER: ftso_user
+    #  POSTGRES_PASSWORD: ftso_password
+    env_file:
+      - ./config/app/app.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ftso_user -d ftso_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
 
   # Test service with fixed values
   ftso-provider-fixed:
@@ -128,3 +182,6 @@ services:
       '
     profiles:
       - test
+
+volumes:
+  postgres_data:

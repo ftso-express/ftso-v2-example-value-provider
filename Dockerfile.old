@@ -19,5 +19,8 @@ EXPOSE 3101
 # Define environment variable
 ENV VALUE_PROVIDER_CLIENT_PORT=3101
 
+
+# RUN python -c "import nest; print(dir(nest))"
+# RUN python -c "import nest.common; print(dir(nest.common))"
 # Run main.py when the container launches
 CMD ["python", "src/main.py"]

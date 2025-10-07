@@ -1,7 +1,7 @@
 import random
 from typing import List
-from src.data_feeds.base_feed import BaseDataFeed
-from src.dto.provider_requests import FeedId, FeedValueData, FeedVolumeData
+from data_feeds.base_feed import BaseDataFeed
+from dto.provider_requests import FeedId, FeedValueData, FeedVolumeData
 
 BASE_VALUE = 0.05
 

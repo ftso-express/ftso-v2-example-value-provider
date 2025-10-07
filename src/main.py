@@ -5,8 +5,8 @@ from fastapi import FastAPI
 from nest.core import PyNestFactory
 from contextlib import asynccontextmanager
 
-from src.app_module import AppModule
-from src.data_feeds.ccxt_provider_service import CcxtFeed
+from app_module import AppModule
+from data_feeds.ccxt_provider_service import CcxtFeed
 
 load_dotenv()
 
